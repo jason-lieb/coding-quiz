@@ -1,11 +1,20 @@
 // Global
 let currentQuestion = 0;
-let time = 75;
+let time = 0;
+let highscores;
 
 // Query Selector
 let main = document.querySelector('main');
+let timer = document.querySelector('#timer');
+
+// Initialize
+init();
 
 // Functions
+function init() {
+  getHighScores();
+}
+
 function startQuiz() {
   // start timer
   // load first question
@@ -16,15 +25,41 @@ function startQuiz() {
   // }
 }
 
+function getHighScores() {
+  storedScores = window.localStorage.getItem('highscores');
+  if (storedScores === null) {
+    highscores = [];
+  } else {
+    highscores = storedScores;
+  }
+}
+
+function setHighScore() {
+
+}
+
+function clearMain() {
+  main.innerHTML = '';
+}
+
+function startTimer() {
+
+}
+
 function nextQuestion() {
   currentQuestion++;
   let question = questions[currentQuestion];
 }
 
-function createQuestionHTML() {
+function displayCorrectness() {
+  // Add DOM statement
+  // Decrease timer by 10 if incorrect
+}
 
+function createQuestionHTML() {
   let questionDiv = document.createElement('div');
   questionDiv.setAttribute('class', 'question');
+
   for (let i = 0; i < 4; i++) {
     let optionBtn = document.createElement('input');
     optionBtn.setAttribute('type', 'button');
