@@ -29,7 +29,7 @@ function getHighScores() {
 
 function startQuiz() {
   startTimer();
-  // load first question
+  nextQuestion();
 
   // setInterval(intervalFunction, 1000);
   // function intervalFunction() {
@@ -53,18 +53,22 @@ function startTimer() {
   }, 1000);
 }
 
-function clearMain() {
-  main.innerHTML = '';
-}
-
 function nextQuestion() {
+  // if (questionIndex !== undefined) {check for correctness} ==> Create separate function?
   if (questionIndex === undefined) {
     questionIndex = 0;
+  } else if (questionIndex === questions.length - 1) {
+    endQuiz();
   } else {
     questionIndex++;
   }
   let currentQuestion = questions[questionIndex];
-  // if no more questions
+  clearMain();
+  createQuestionHTML();
+}
+
+function clearMain() {
+  main.innerHTML = '';
 }
 
 function createQuestionHTML() {
@@ -80,9 +84,15 @@ function createQuestionHTML() {
     optionBtn.textContent = currentQuestion.options[i];
     questionDiv.appendChild(optionBtn);
   }
+
 }
 
-function displayCorrectness() {
+function checkCorrectness(event) {
+  let correctness = event.target[data - answerNum] === currentQuestion.answer;
+  displayCorrectness(correctness);
+}
+
+function displayCorrectness(correctness) {
   // Add DOM statement
   // Decrease timer by 10 if incorrect
 }
@@ -112,9 +122,6 @@ class Question {
     this.prompt = prompt;
     this.options = options;
     this.answer = answer;
-  }
-  check(option) {
-    return option === answer;
   }
 }
 
