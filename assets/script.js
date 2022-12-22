@@ -1,9 +1,10 @@
 // Global
-let currentQuestion = 0;
 let time = 0;
+let questionIndex;
+let currentQuestion;
 let highscores;
 
-// Query Selector
+// Query Selectors
 let main = document.querySelector('main');
 let timer = document.querySelector('#timer');
 
@@ -13,6 +14,15 @@ init();
 // Functions
 function init() {
   getHighScores();
+}
+
+function getHighScores() {
+  storedScores = window.localStorage.getItem('highscores');
+  if (storedScores === null) {
+    highscores = [];
+  } else {
+    highscores = storedScores;
+  }
 }
 
 function startQuiz() {
@@ -25,16 +35,7 @@ function startQuiz() {
   // }
 }
 
-function getHighScores() {
-  storedScores = window.localStorage.getItem('highscores');
-  if (storedScores === null) {
-    highscores = [];
-  } else {
-    highscores = storedScores;
-  }
-}
-
-function setHighScore() {
+function startTimer() {
 
 }
 
@@ -42,31 +43,33 @@ function clearMain() {
   main.innerHTML = '';
 }
 
-function startTimer() {
-
-}
-
 function nextQuestion() {
-  currentQuestion++;
-  let question = questions[currentQuestion];
-}
-
-function displayCorrectness() {
-  // Add DOM statement
-  // Decrease timer by 10 if incorrect
+  if (questionIndex === undefined) {
+    questionIndex = 0;
+  } else {
+    questionIndex++;
+  }
+  let currentQuestion = questions[questionIndex];
 }
 
 function createQuestionHTML() {
   let questionDiv = document.createElement('div');
   questionDiv.setAttribute('class', 'question');
-
+  let h2 = document.createElement('h2');
+  h2.textContent = currentQuestion.prompt;
+  questionDiv.appendChild(h2);
   for (let i = 0; i < 4; i++) {
     let optionBtn = document.createElement('input');
     optionBtn.setAttribute('type', 'button');
-    optionBtn.textContent = question.options[i];
+    optionBtn.setAttribute('data-answerNum', i);
+    optionBtn.textContent = currentQuestion.options[i];
     questionDiv.appendChild(optionBtn);
   }
+}
 
+function displayCorrectness() {
+  // Add DOM statement
+  // Decrease timer by 10 if incorrect
 }
 
 function endQuiz() {
@@ -80,8 +83,12 @@ function endQuiz() {
   // <input type="button" value="Submit">
 }
 
-function clearHighScores() {
+function setHighScore() {
 
+}
+
+function clearHighScores() {
+  window.localStorage.clear();
 }
 
 // Create Questions
