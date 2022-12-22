@@ -1,8 +1,10 @@
 // Global
 let time = 0;
+let timerFunction;
 let questionIndex;
 let currentQuestion;
 let highscores;
+let quizFinished = false;
 
 // Query Selectors
 let main = document.querySelector('main');
@@ -26,7 +28,7 @@ function getHighScores() {
 }
 
 function startQuiz() {
-  // start timer
+  startTimer();
   // load first question
 
   // setInterval(intervalFunction, 1000);
@@ -36,7 +38,19 @@ function startQuiz() {
 }
 
 function startTimer() {
-
+  timer.textContent = '75';
+  time = 75;
+  timerFunction = setInterval(() => {
+    time--;
+    timer.textContent = time;
+    if (time > 0 && quizFinished === true) {
+      clearInterval(timer);
+    }
+    if (time === 0) {
+      clearInterval(timer);
+      endQuiz();
+    }
+  }, 1000);
 }
 
 function clearMain() {
@@ -50,6 +64,7 @@ function nextQuestion() {
     questionIndex++;
   }
   let currentQuestion = questions[questionIndex];
+  // if no more questions
 }
 
 function createQuestionHTML() {
