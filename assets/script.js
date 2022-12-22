@@ -1,5 +1,5 @@
 // Global
-let time = 0;
+let time = 75;
 let timerFunction;
 let questionIndex;
 let currentQuestion;
@@ -30,16 +30,9 @@ function getHighScores() {
 function startQuiz() {
   startTimer();
   nextQuestion();
-
-  // setInterval(intervalFunction, 1000);
-  // function intervalFunction() {
-  //   console.log('hello');
-  // }
 }
 
 function startTimer() {
-  timer.textContent = '75';
-  time = 75;
   timerFunction = setInterval(() => {
     time--;
     timer.textContent = time;
@@ -53,16 +46,16 @@ function startTimer() {
   }, 1000);
 }
 
-function nextQuestion() {
-  // if (questionIndex !== undefined) {check for correctness} ==> Create separate function?
+function nextQuestion(event) {
+  if (questionIndex !== undefined) checkCorrectness(event);
   if (questionIndex === undefined) {
     questionIndex = 0;
   } else if (questionIndex === questions.length - 1) {
-    endQuiz();
+    endQuiz(); // quizFinished = true?
   } else {
     questionIndex++;
   }
-  let currentQuestion = questions[questionIndex];
+  currentQuestion = questions[questionIndex];
   clearMain();
   createQuestionHTML();
 }
@@ -84,17 +77,22 @@ function createQuestionHTML() {
     optionBtn.textContent = currentQuestion.options[i];
     questionDiv.appendChild(optionBtn);
   }
-
+  main.appendChild(questionDiv);
 }
 
 function checkCorrectness(event) {
   let correctness = event.target[data - answerNum] === currentQuestion.answer;
+  if (correctness === false && time >= 10) {
+    time -= 10;
+  } else if (correctness === false) {
+    time = 0;
+  }
   displayCorrectness(correctness);
+  // Decrease timer by 10 if incorrect
 }
 
 function displayCorrectness(correctness) {
   // Add DOM statement
-  // Decrease timer by 10 if incorrect
 }
 
 function endQuiz() {
