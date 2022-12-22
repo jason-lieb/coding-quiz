@@ -2,3 +2,29 @@
   font-size: 62.5%;
 }
 
+* {
+  border: 1px solid red;
+  font-size: 3rem;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+main {
+  width: 800px;
+}
+
+.home {
+  text-align: center;
+}
