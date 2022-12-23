@@ -96,7 +96,6 @@ function createQuestionHTML() {
 
 function checkCorrectness(event) {
   let correctness = event.target.dataset.answernum === currentQuestion.answer;
-  // Possible to get time below 0 //////////////////////////////////////////////////////////////////////////////////
   if (correctness === false && time > 10) {
     time -= 10;
   } else if (correctness === false) {
@@ -160,7 +159,10 @@ function setHighScore() {
   let initials = document.querySelector('#initials').value;
   let finalScore = new FinalScore(initials, time);
   highscores = [...highscores, finalScore];
-  ///////////////////////////////////////////// sort highscores / limit to ten
+  highscores = highscores.sort((a, b) => { a.time > b.time })
+  if (highscores.length > 10) highscores.pop();
+  ///////////////////////////////////////////// sort highscores / limit to ten --> needs to be checked
+
   window.localStorage.setItem('highscores', JSON.stringify(highscores));
   ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
   window.location.href = './highscores.html';
