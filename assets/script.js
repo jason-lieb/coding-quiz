@@ -54,6 +54,7 @@ function nextQuestion(event) {
   } else if (questionIndex === questions.length - 1) {
     quizFinished = true;
     endQuiz();
+    return;
   } else {
     questionIndex++;
   }
@@ -68,7 +69,7 @@ function clearMain() {
 
 function createQuestionHTML() {
   let questionDiv = document.createElement('div');
-  questionDiv.setAttribute('class', 'question');
+  questionDiv.className = 'question container';
   let h2 = document.createElement('h2');
   h2.textContent = currentQuestion.prompt;
   questionDiv.appendChild(h2);
@@ -95,6 +96,8 @@ function checkCorrectness(event) {
   displayCorrectness(correctness);
 }
 
+///////////////////////////////////////////////////////////// Disable buttons until correctness disappears
+
 function displayCorrectness(correctness) {
   let message;
   if (correctness === true) {
@@ -105,20 +108,40 @@ function displayCorrectness(correctness) {
   let h4 = document.createElement('h4');
   h4.textContent = message;
   body.appendChild(h4);
+  // container underlined
   setTimeout(() => {
     body.removeChild(h4);
+
   }, 1000);
 }
 
 function endQuiz() {
-  console.log('end');
+  console.log('test');
+  clearMain();
+  createEndPage();
+}
 
-  // HTML to Create
-  // <h2>All done!</h2>
-  // <p>Your final score is <span></span>.</p>
-  // <p>Enter initials:</p>
-  // <input type="text">
-  // <input type="button" value="Submit">
+function createEndPage() {
+  console.log('end');
+  let end = document.createElement('div');
+  end.className = 'end container';
+  let h3 = document.createElement('h3');
+  h3.textContent = 'All done!';
+  end.appendChild(h3);
+  let p1 = document.createElement('p');
+  p1.innerHTML = 'Your final score is <span></span>.';
+  end.appendChild(p1);
+  let p2 = document.createElement('p');
+  p2.textContent = 'Enter initials:';
+  end.appendChild(p2);
+  let initials = document.createElement('input');
+  initials.setAttribute('type', 'text');
+  end.appendChild(initials);
+  let submit = document.createElement('input');
+  submit.setAttribute('type', 'button');
+  submit.setAttribute('value', 'Submit');
+  end.appendChild(submit);
+  main.appendChild(end);
 }
 
 function setHighScore() {
