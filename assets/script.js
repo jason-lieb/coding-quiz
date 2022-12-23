@@ -122,7 +122,6 @@ function displayCorrectness(correctness) {
   ////////////////////////////////////////////////////////////////// container underlined
   setTimeout(() => {
     body.removeChild(h4);
-
   }, 1000);
 }
 

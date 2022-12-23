@@ -3,12 +3,17 @@
 }
 
 * {
-  border: 1px solid red;
-  font-size: 3rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration-line: none;
+  color: purple;
 }
 
 body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -16,13 +21,24 @@ body {
 nav {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
+nav p {
+  margin: 2rem;
+  font-size: clamp(0.5rem, 0.25rem + 1vw, 2rem);
+}
+
 main {
-  width: 800px;
+  width: 100%;
+}
+
+h1 {
+  font-size: clamp(1rem, 0.5rem + 4vw, 4rem);
+  font-weight: bold;
 }
 
 .home {
