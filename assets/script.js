@@ -105,7 +105,6 @@ function checkCorrectness(event) {
   }
   displayCorrectness(correctness);
 }
-
 ///////////////////////////////////////////////////////////// Disable buttons until correctness disappears
 
 function displayCorrectness(correctness) {
@@ -162,7 +161,6 @@ function setHighScore() {
   highscores = highscores.sort((a, b) => { a.time > b.time })
   if (highscores.length > 10) highscores.pop();
   ///////////////////////////////////////////// sort highscores / limit to ten --> needs to be checked
-
   window.localStorage.setItem('highscores', JSON.stringify(highscores));
   ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
   window.location.href = './highscores.html';
