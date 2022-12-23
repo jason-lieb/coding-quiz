@@ -12,8 +12,6 @@ let main = document.querySelector('main');
 let timer = document.querySelector('#timer');
 let scoreList = document.querySelector('ol');
 
-/////////////////////////////////////////////////////////////////////////////////query selectors not working on highscores page; split into 2 files?
-
 // Initialize
 init();
 
@@ -39,7 +37,7 @@ function startQuiz() {
   nextQuestion();
 }
 
-function startTimer() { ////////////////////////////tie and final score off by 10 when last question is wrong
+function startTimer() {
   timerFunction = setInterval(() => {
     if (time > 0 && quizFinished === true) {
       clearInterval(timerFunction);
@@ -51,8 +49,12 @@ function startTimer() { ////////////////////////////tie and final score off by 1
       return;
     }
     time--;
-    timer.textContent = time;
+    updateTime();
   }, 1000);
+}
+
+function updateTime() {
+  timer.textContent = time;
 }
 
 function nextQuestion(event) {
@@ -97,9 +99,10 @@ function checkCorrectness(event) {
   let correctness = event.target.dataset.answernum === currentQuestion.answer;
   if (correctness === false && time > 10) {
     time -= 10;
+    updateTime();
   } else if (correctness === false) {
     time = 0;
-    timer.textContent = 0;
+    updateTime();
     endQuiz();
   }
   displayCorrectness(correctness);
