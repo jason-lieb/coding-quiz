@@ -21,7 +21,6 @@ init();
 function init() {
   getHighScores();
   if (scoreList !== null) {
-    console.log(scoreList);
     createHighScoreHTML();
   }
 }
@@ -40,7 +39,7 @@ function startQuiz() {
   nextQuestion();
 }
 
-function startTimer() {
+function startTimer() { ////////////////////////////tie and final score off by 10 when last question is wrong
   timerFunction = setInterval(() => {
     if (time > 0 && quizFinished === true) {
       clearInterval(timerFunction);
@@ -158,20 +157,24 @@ function setHighScore() {
   let initials = document.querySelector('#initials').value;
   let finalScore = new FinalScore(initials, time);
   highscores = [...highscores, finalScore];
-  highscores = highscores.sort((a, b) => { a.time > b.time })
-  if (highscores.length > 10) highscores.pop();
-  ///////////////////////////////////////////// sort highscores / limit to ten --> needs to be checked
-  window.localStorage.setItem('highscores', JSON.stringify(highscores));
-  ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
+  editHighScores();
+  try {
+    window.localStorage.setItem('highscores', JSON.stringify(highscores));
+  } catch (exception) {
+    return false
+  }
   window.location.href = './highscores.html';
 }
 
-function createHighScoreHTML() {////////////////////////////////////////////////////////
+function editHighScores() {
+  highscores = highscores.sort((a, b) => b.score - a.score)
+  if (highscores.length > 10) highscores.pop();
+}
+
+function createHighScoreHTML() {
   for (let i = 0; i < highscores.length; i++) {
     let scoreElement = document.createElement('li');
     let { initials, score } = highscores[i];
-    let test = `${initials} - ${score}`;
-    console.log(scoreList);
     scoreElement.textContent = `${initials} - ${score}`;
     scoreList.appendChild(scoreElement);
   }
