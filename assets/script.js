@@ -5,12 +5,14 @@ let questionIndex;
 let currentQuestion;
 let highscores;
 let quizFinished = false;
-let scoreList;
 
 // Query Selectors
 let body = document.querySelector('body');
 let main = document.querySelector('main');
 let timer = document.querySelector('#timer');
+let scoreList = document.querySelector('ol');
+
+/////////////////////////////////////////////////////////////////////////////////query selectors not working on highscores page; split into 2 files?
 
 // Initialize
 init();
@@ -18,8 +20,8 @@ init();
 // Functions
 function init() {
   getHighScores();
-  scoreList = document.querySelector('ol');
-  if (scoreList !== undefined) {
+  if (scoreList !== null) {
+    console.log(scoreList);
     createHighScoreHTML();
   }
 }
@@ -39,17 +41,18 @@ function startQuiz() {
 }
 
 function startTimer() {
-  ///////////////////////////////////////////////////////Difference of 1 between final score and time at end
   timerFunction = setInterval(() => {
-    time--;
-    timer.textContent = time;
     if (time > 0 && quizFinished === true) {
       clearInterval(timerFunction);
+      return;
     }
     if (time === 0) {
       clearInterval(timerFunction);
       endQuiz();
+      return;
     }
+    time--;
+    timer.textContent = time;
   }, 1000);
 }
 
@@ -98,6 +101,7 @@ function checkCorrectness(event) {
     time -= 10;
   } else if (correctness === false) {
     time = 0;
+    timer.textContent = 0;
     endQuiz();
   }
   displayCorrectness(correctness);
@@ -152,12 +156,10 @@ function createEndPage() {
   main.appendChild(end);
 }
 
-/////////////////////////////////////////////////////////////// add final time to end page -> no span necessary?; template literal
-
 function setHighScore() {
   let initials = document.querySelector('#initials').value;
-  let score = new Score(initials, time);
-  highscores = [...highscores, score];
+  let finalScore = new FinalScore(initials, time);
+  highscores = [...highscores, finalScore];
   ///////////////////////////////////////////// sort highscores / limit to ten
   window.localStorage.setItem('highscores', JSON.stringify(highscores));
   ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
@@ -165,9 +167,14 @@ function setHighScore() {
 }
 
 function createHighScoreHTML() {////////////////////////////////////////////////////////
-
-
-  // scoreList.appendChild();
+  for (let i = 0; i < highscores.length; i++) {
+    let scoreElement = document.createElement('li');
+    let { initials, score } = highscores[i];
+    let test = `${initials} - ${score}`;
+    console.log(scoreList);
+    scoreElement.textContent = `${initials} - ${score}`;
+    scoreList.appendChild(scoreElement);
+  }
 }
 
 function clearHighScores() {
@@ -175,7 +182,7 @@ function clearHighScores() {
 }
 
 // Classes
-class Score {
+class FinalScore {
   constructor(initials, score) {
     this.initials = initials;
     this.score = score;
