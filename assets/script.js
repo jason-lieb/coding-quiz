@@ -5,6 +5,7 @@ let questionIndex;
 let currentQuestion;
 let highscores;
 let quizFinished = false;
+let scoreList;
 
 // Query Selectors
 let body = document.querySelector('body');
@@ -17,6 +18,10 @@ init();
 // Functions
 function init() {
   getHighScores();
+  scoreList = document.querySelector('ol');
+  if (scoreList !== undefined) {
+    createHighScoreHTML();
+  }
 }
 
 function getHighScores() {
@@ -34,6 +39,7 @@ function startQuiz() {
 }
 
 function startTimer() {
+  ///////////////////////////////////////////////////////Difference of 1 between final score and time at end
   timerFunction = setInterval(() => {
     time--;
     timer.textContent = time;
@@ -128,7 +134,8 @@ function createEndPage() {
   h3.textContent = 'All done!';
   end.appendChild(h3);
   let p1 = document.createElement('p');
-  p1.innerHTML = 'Your final score is <span></span>.';
+  let finalScoreStatement = `Your final score is ${time}.`;
+  p1.textContent = finalScoreStatement;
   end.appendChild(p1);
   let p2 = document.createElement('p');
   p2.textContent = 'Enter initials:';
@@ -151,15 +158,16 @@ function setHighScore() {
   let initials = document.querySelector('#initials').value;
   let score = new Score(initials, time);
   highscores = [...highscores, score];
+  ///////////////////////////////////////////// sort highscores / limit to ten
   window.localStorage.setItem('highscores', JSON.stringify(highscores));
   ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
   window.location.href = './highscores.html';
 }
 
-function createHighScoreHTML() {
-  if (document.querySelector('ol') !== undefined) {/////////////////////////////////////////////////////
+function createHighScoreHTML() {////////////////////////////////////////////////////////
 
-  }
+
+  // scoreList.appendChild();
 }
 
 function clearHighScores() {
