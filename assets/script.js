@@ -92,6 +92,7 @@ function checkCorrectness(event) {
     time -= 10;
   } else if (correctness === false) {
     time = 0;
+    endQuiz();
   }
   displayCorrectness(correctness);
 }
@@ -116,13 +117,11 @@ function displayCorrectness(correctness) {
 }
 
 function endQuiz() {
-  console.log('test');
   clearMain();
   createEndPage();
 }
 
 function createEndPage() {
-  console.log('end');
   let end = document.createElement('div');
   end.className = 'end container';
   let h3 = document.createElement('h3');
