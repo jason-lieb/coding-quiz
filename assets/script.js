@@ -37,10 +37,10 @@ function startTimer() {
     time--;
     timer.textContent = time;
     if (time > 0 && quizFinished === true) {
-      clearInterval(timer);
+      clearInterval(timerFunction);
     }
     if (time === 0) {
-      clearInterval(timer);
+      clearInterval(timerFunction);
       endQuiz();
     }
   }, 1000);
@@ -90,7 +90,6 @@ function checkCorrectness(event) {
     time = 0;
   }
   displayCorrectness(correctness);
-  // Decrease timer by 10 if incorrect
 }
 
 function displayCorrectness(correctness) {
