@@ -20,7 +20,7 @@ function init() {
 }
 
 function getHighScores() {
-  storedScores = window.localStorage.getItem('highscores');
+  storedScores = JSON.parse(window.localStorage.getItem('highscores'));
   if (storedScores === null) {
     highscores = [];
   } else {
@@ -109,7 +109,7 @@ function displayCorrectness(correctness) {
   let h4 = document.createElement('h4');
   h4.textContent = message;
   body.appendChild(h4);
-  // container underlined
+  ////////////////////////////////////////////////////////////////// container underlined
   setTimeout(() => {
     body.removeChild(h4);
 
@@ -135,23 +135,44 @@ function createEndPage() {
   end.appendChild(p2);
   let initials = document.createElement('input');
   initials.setAttribute('type', 'text');
+  initials.setAttribute('id', 'initials')
   end.appendChild(initials);
   let submit = document.createElement('input');
   submit.setAttribute('type', 'button');
   submit.setAttribute('value', 'Submit');
+  submit.onclick = setHighScore;
   end.appendChild(submit);
   main.appendChild(end);
 }
 
-function setHighScore() {
+/////////////////////////////////////////////////////////////// add final time to end page -> no span necessary?; template literal
 
+function setHighScore() {
+  let initials = document.querySelector('#initials').value;
+  let score = new Score(initials, time);
+  highscores = [...highscores, score];
+  window.localStorage.setItem('highscores', JSON.stringify(highscores));
+  ////////////////////////////////////////////////////////////////////////Catch exceptions from local storage (if full)
+  window.location.href = './highscores.html';
+}
+
+function createHighScoreHTML() {
+  if (document.querySelector('ol') !== undefined) {/////////////////////////////////////////////////////
+
+  }
 }
 
 function clearHighScores() {
   window.localStorage.clear();
 }
 
-// Create Questions
+// Classes
+class Score {
+  constructor(initials, score) {
+    this.initials = initials;
+    this.score = score;
+  }
+}
 class Question {
   constructor(prompt, options, answer) {
     this.prompt = prompt;
