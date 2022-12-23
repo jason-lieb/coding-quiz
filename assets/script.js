@@ -88,7 +88,8 @@ function createQuestionHTML() {
     optionBtn.setAttribute('type', 'button');
     optionBtn.className = 'option';
     optionBtn.setAttribute('data-answernum', i);
-    optionBtn.setAttribute('value', currentQuestion.options[i]);
+    let buttonValue = `${i + 1}. ${currentQuestion.options[i]}`;
+    optionBtn.setAttribute('value', buttonValue);
     optionBtn.onclick = nextQuestion;
     questionDiv.appendChild(optionBtn);
   }
