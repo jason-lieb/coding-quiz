@@ -86,7 +86,7 @@ function createQuestionHTML() {
   for (let i = 0; i < 4; i++) {
     let optionBtn = document.createElement('input');
     optionBtn.setAttribute('type', 'button');
-    optionBtn.className = 'option';
+    optionBtn.className = 'block';
     optionBtn.setAttribute('data-answernum', i);
     let buttonValue = `${i + 1}. ${currentQuestion.options[i]}`;
     optionBtn.setAttribute('value', buttonValue);
@@ -108,7 +108,6 @@ function checkCorrectness(event) {
   }
   displayCorrectness(correctness);
 }
-///////////////////////////////////////////////////////////// Disable buttons until correctness disappears
 
 function displayCorrectness(correctness) {
   let message;
@@ -120,7 +119,6 @@ function displayCorrectness(correctness) {
   let h4 = document.createElement('h4');
   h4.textContent = message;
   body.appendChild(h4);
-  ////////////////////////////////////////////////////////////////// container underlined
   setTimeout(() => {
     body.removeChild(h4);
   }, 1000);
@@ -141,18 +139,22 @@ function createEndPage() {
   let finalScoreStatement = `Your final score is ${time}.`;
   p1.textContent = finalScoreStatement;
   end.appendChild(p1);
+  let submitScore = document.createElement('div');
+  submitScore.className = 'submitScore';
   let p2 = document.createElement('p');
-  p2.textContent = 'Enter initials:';
-  end.appendChild(p2);
+  p2.textContent = 'Enter initials: ';
+  p2.className = 'initials';
+  submitScore.appendChild(p2);
   let initials = document.createElement('input');
   initials.setAttribute('type', 'text');
   initials.setAttribute('id', 'initials')
-  end.appendChild(initials);
+  submitScore.appendChild(initials);
   let submit = document.createElement('input');
   submit.setAttribute('type', 'button');
   submit.setAttribute('value', 'Submit');
   submit.onclick = setHighScore;
-  end.appendChild(submit);
+  submitScore.appendChild(submit);
+  end.appendChild(submitScore);
   main.appendChild(end);
 }
 
@@ -185,6 +187,7 @@ function createHighScoreHTML() {
 
 function clearHighScores() {
   window.localStorage.clear();
+  location.reload();
 }
 
 // Classes
