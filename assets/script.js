@@ -7,6 +7,7 @@ let highscores;
 let quizFinished = false;
 
 // Query Selectors
+let body = document.querySelector('body');
 let main = document.querySelector('main');
 let timer = document.querySelector('#timer');
 
@@ -51,7 +52,8 @@ function nextQuestion(event) {
   if (questionIndex === undefined) {
     questionIndex = 0;
   } else if (questionIndex === questions.length - 1) {
-    endQuiz(); // quizFinished = true?
+    quizFinished = true;
+    endQuiz();
   } else {
     questionIndex++;
   }
@@ -84,7 +86,8 @@ function createQuestionHTML() {
 
 function checkCorrectness(event) {
   let correctness = event.target.dataset.answernum === currentQuestion.answer;
-  if (correctness === false && time >= 10) {
+  // Possible to get time below 0 //////////////////////////////////////////////////////////////////////////////////
+  if (correctness === false && time > 10) {
     time -= 10;
   } else if (correctness === false) {
     time = 0;
@@ -93,11 +96,22 @@ function checkCorrectness(event) {
 }
 
 function displayCorrectness(correctness) {
-  // Add DOM statement
+  let message;
+  if (correctness === true) {
+    message = 'Correct!';
+  } else {
+    message = 'Wrong!';
+  }
+  let h4 = document.createElement('h4');
+  h4.textContent = message;
+  body.appendChild(h4);
+  setTimeout(() => {
+    body.removeChild(h4);
+  }, 1000);
 }
 
 function endQuiz() {
-
+  console.log('end');
 
   // HTML to Create
   // <h2>All done!</h2>
@@ -136,11 +150,11 @@ let q3options = ['numbers and strings', 'other arrays', 'booleans', 'all of the 
 let q4options = ['commas', 'curly brackets', 'quotes', 'parenthesis'];
 let q5options = ['JavaScript', 'terminal/bash', 'for loops', 'console.log'];
 
-let q1answer = 2;
-let q2answer = 2;
-let q3answer = 3;
-let q4answer = 2;
-let q5answer = 3;
+let q1answer = '2';
+let q2answer = '2';
+let q3answer = '3';
+let q4answer = '2';
+let q5answer = '3';
 
 let question1 = new Question(q1prompt, q1options, q1answer);
 let question2 = new Question(q2prompt, q2options, q2answer);
