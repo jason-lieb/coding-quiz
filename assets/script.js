@@ -73,15 +73,17 @@ function createQuestionHTML() {
   for (let i = 0; i < 4; i++) {
     let optionBtn = document.createElement('input');
     optionBtn.setAttribute('type', 'button');
-    optionBtn.setAttribute('data-answerNum', i);
-    optionBtn.textContent = currentQuestion.options[i];
+    optionBtn.className = 'option';
+    optionBtn.setAttribute('data-answernum', i);
+    optionBtn.setAttribute('value', currentQuestion.options[i]);
+    optionBtn.onclick = nextQuestion;
     questionDiv.appendChild(optionBtn);
   }
   main.appendChild(questionDiv);
 }
 
 function checkCorrectness(event) {
-  let correctness = event.target[data - answerNum] === currentQuestion.answer;
+  let correctness = event.target.dataset.answernum === currentQuestion.answer;
   if (correctness === false && time >= 10) {
     time -= 10;
   } else if (correctness === false) {

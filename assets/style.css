@@ -29,7 +29,6 @@ main {
   text-align: center;
 }
 
-.answer {
-  width: 100px;
-  height: 50px;
+.option {
+  display: block;
 }
